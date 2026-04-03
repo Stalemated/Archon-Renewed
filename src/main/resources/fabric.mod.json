@@ -3,14 +3,19 @@
   "id": "archon",
   "version": "${version}",
 
-  "name": "Archon",
-  "description": "Sorcery, Necromancy, Bosses, and More!",
+  "name": "Archon Renewed",
+  "description": "Sorcery, Necromancy, Bosses, and More, now Renewed!",
   "authors": [
-    "Safro"
+    "Stalemated"
+  ],
+  "contributors": [
+    "Safro",
+    "Stalemated"
   ],
   "contact": {
-    "homepage": "https://curseforge.com/minecraft/mc-mods/archon",
-    "sources": "https://github.com/Safrodev/Archon"
+    "homepage": "https://curseforge.com/minecraft/mc-mods/archon-renewed",
+    "sources": "https://github.com/Stalemated/Archon-Renewed",
+    "issues": "https://github.com/Stalemated/Archon-Renewed/issues"
   },
 
   "license": "GNU GPLv3",
