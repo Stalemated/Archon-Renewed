@@ -1,6 +1,7 @@
 package safro.archon.registry;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.item.Item;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
@@ -22,19 +23,19 @@ public class LootTableRegistry {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (LootTables.NETHER_BRIDGE_CHEST.equals(id) || LootTables.BASTION_TREASURE_CHEST.equals(id)) {
                 LootPool pool = createForSpell(0.2F, SpellRegistry.SPELLS.get(Element.FIRE));
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             } else if (LootTables.FISHING_TREASURE_GAMEPLAY.equals(id) || LootTables.UNDERWATER_RUIN_BIG_CHEST.equals(id)) {
                 LootPool pool = createForSpell(0.5F, SpellRegistry.SPELLS.get(Element.WATER));
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             } else if (Arrays.stream(VILLAGE_CHESTS).toList().contains(id)) {
                 LootPool pool = createForSpell(0.06F, SpellRegistry.SPELLS.get(Element.SKY));
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             } else if (LootTables.ABANDONED_MINESHAFT_CHEST.equals(id) || LootTables.DESERT_PYRAMID_CHEST.equals(id)) {
                 LootPool pool = createForSpell(0.22F, SpellRegistry.SPELLS.get(Element.EARTH));
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             } else if (LootTables.END_CITY_TREASURE_CHEST.equals(id) || LootTables.STRONGHOLD_LIBRARY_CHEST.equals(id)) {
                 LootPool pool = createForSpell(0.17F, SpellRegistry.SPELLS.get(Element.END));
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             }
         });
 
@@ -52,9 +53,18 @@ public class LootTableRegistry {
 
     private static LootPool createForSpell(float chance, List<Spell> spells) {
         LootPool.Builder builder = LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).conditionally(RandomChanceLootCondition.builder(chance));
-        int weight = 100 / spells.size();
+        int validSpells = 0;
         for (Spell s : spells) {
-            builder.with(ItemEntry.builder(SpellRegistry.getTome(s)).weight(weight).build());
+            if (SpellRegistry.getTome(s) != null) validSpells++;
+        }
+        if (validSpells == 0) return null;
+        
+        int weight = 100 / validSpells;
+        for (Spell s : spells) {
+            Item tome = SpellRegistry.getTome(s);
+            if (tome != null) {
+                builder.with(ItemEntry.builder(tome).weight(weight).build());
+            }
         }
         return builder.build();
     }

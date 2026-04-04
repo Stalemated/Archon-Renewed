@@ -3,6 +3,8 @@ package safro.archon.config;
 import draylar.omegaconfig.api.Comment;
 import draylar.omegaconfig.api.Config;
 import draylar.omegaconfig.api.Syncing;
+import java.util.HashMap;
+import java.util.Map;
 
 @Syncing
 public class ArchonConfig implements Config {
@@ -88,6 +90,46 @@ public class ArchonConfig implements Config {
             """)
     @Syncing
     public int superExperiencePouchMax = 2920;
+    
+    @Comment("""
+              Enable or disable specific spells.
+              Accepts "true" or "false"
+              Example: "archon:fireball": false to disable Fireball
+              Default: true
+             """)
+    @Syncing
+    public Map<String, Boolean> enabledSpells = new HashMap<>() {{
+                put("archon:fireball", true);
+                put("archon:incombustible", true);
+                put("archon:scorch", true);
+                put("archon:hellbeam", true);
+
+                put("archon:aqua_shield", true);
+                put("archon:freeze", true);
+                put("archon:mend", true);
+                put("archon:overcast", true);
+                put("archon:bubble_beam", true);
+
+                put("archon:propel", true);
+                put("archon:gust", true);
+                put("archon:thunder_strike", true);
+                put("archon:cloudshot", true);
+                put("archon:clearing_breeze", true);
+                put("archon:vacuum", true);
+
+                put("archon:rumble", true);
+                put("archon:crush", true);
+                put("archon:spike", true);
+                put("archon:terrain_toss", true);
+                put("archon:rage", true);
+
+                put("archon:darkball", true);
+                put("archon:swap", true);
+                put("archon:ender", true);
+                put("archon:shadow", true);
+                put("archon:astrofall", true);
+                put("archon:warp", true);
+    }};
 
     @Override
     public String getName() {

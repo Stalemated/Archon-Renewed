@@ -67,7 +67,9 @@ public class SpellRegistry {
     }
 
     private static Spell register(String name, Spell spell) {
-        createTome(name + "_tome", spell);
+        if (Archon.CONFIG.enabledSpells.getOrDefault("archon:" + name, true)) {
+            createTome(name + "_tome", spell);
+        }
         addToLists(spell);
         return Registry.register(REGISTRY, new Identifier(Archon.MODID, name), spell);
     }
@@ -79,9 +81,15 @@ public class SpellRegistry {
     }
 
     public static Item getTome(Spell spell) {
-        String s = REGISTRY.getId(spell).toString();
-        Identifier tome = new Identifier(s + "_tome");
-        return Registries.ITEM.get(tome);
+        Identifier id = REGISTRY.getId(spell);
+        if (id == null) return null;
+        String s = id.toString();
+        if (!Archon.CONFIG.enabledSpells.getOrDefault(s, true)) return null;
+        Identifier tome = new Identifier(id.getNamespace(), id.getPath() + "_tome");
+        if (Registries.ITEM.containsId(tome)) {
+             return Registries.ITEM.get(tome);
+        }
+        return null;
     }
 
     private static void addToLists(Spell spell) {

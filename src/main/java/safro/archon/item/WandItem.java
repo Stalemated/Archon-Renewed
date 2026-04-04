@@ -66,7 +66,10 @@ public class WandItem extends Item implements SpellAttributable {
             Spell current = getCurrentSpell(stack, player);
             if (player.isSneaking()) {
                 this.cycleSpells(stack, player);
-                player.sendMessage(Text.translatable(getCurrentSpell(stack, player).getTranslationKey()).formatted(Formatting.GREEN), true);
+                Spell spell = getCurrentSpell(stack, player);
+                if (spell != null) {
+                    player.sendMessage(Text.translatable(spell.getTranslationKey()).formatted(Formatting.GREEN), true);
+                }
                 return TypedActionResult.success(stack);
             } else if (current != null && !current.isBlockCasted() && current.canCast(world, player, stack)) {
                 current.cast(world, player, SpellPower.getSpellPower(this.getElement().getSchool(), player), stack);
@@ -117,32 +120,53 @@ public class WandItem extends Item implements SpellAttributable {
     public Spell getCurrentSpell(ItemStack stack, PlayerEntity player) {
         if (stack.getOrCreateSubNbt(Archon.MODID).contains("CurrentSpell")) {
             String name = stack.getOrCreateSubNbt(Archon.MODID).getString("CurrentSpell");
-            return SpellRegistry.REGISTRY.get(new Identifier(name));
-        } else if (!getSpells(player).isEmpty()) {
-            Spell spell = getSpells(player).get(0);
+            Spell spell = SpellRegistry.REGISTRY.get(new Identifier(name));
+            if (spell != null && Archon.CONFIG.enabledSpells.getOrDefault(name, true)) {
+                 return spell;
+            }
+        }
+        
+        List<Spell> spells = getSpells(player);
+        if (!spells.isEmpty()) {
+            Spell spell = spells.get(0);
             Identifier id = SpellRegistry.REGISTRY.getId(spell);
             if (id != null) {
                 stack.getOrCreateSubNbt(Archon.MODID).putString("CurrentSpell", id.toString());
                 return spell;
             }
         }
+        
         return null;
     }
 
     public void cycleSpells(ItemStack stack, PlayerEntity player) {
-        if (getSpells(player).size() > 1) {
-            List<Spell> spells = ArchonUtil.getSpells(player);
+        List<Spell> spells = getSpells(player);
+        if (spells.size() > 1) {
+            List<Spell> allSpells = ArchonUtil.getSpells(player);
+            Spell currentSpell = getCurrentSpell(stack, player);
+            if (currentSpell != null) {
+                int currentIndex = allSpells.indexOf(currentSpell);
+                if (currentIndex >= 0) {
+                    Collections.rotate(allSpells, -currentIndex);
+                }
+            }
+            
             do {
-                Collections.rotate(spells, 1);
-                stack.getOrCreateSubNbt(Archon.MODID).putString("CurrentSpell", SpellRegistry.REGISTRY.getId(spells.get(0)).toString());
-            } while (getCurrentSpell(stack, player).getElement() != this.getElement());
+                Collections.rotate(allSpells, -1);
+                Spell nextSpell = allSpells.get(0);
+                Identifier id = SpellRegistry.REGISTRY.getId(nextSpell);
+                if (id != null) {
+                    stack.getOrCreateSubNbt(Archon.MODID).putString("CurrentSpell", id.toString());
+                }
+            } while (getCurrentSpell(stack, player) == null || getCurrentSpell(stack, player).getElement() != this.getElement());
         }
     }
 
     public ArrayList<Spell> getSpells(PlayerEntity player) {
         ArrayList<Spell> list = new ArrayList<>();
         for (Spell spell : ArchonUtil.getSpells(player)) {
-            if (spell.getElement() == this.getElement()) {
+            Identifier id = SpellRegistry.REGISTRY.getId(spell);
+            if (id != null && Archon.CONFIG.enabledSpells.getOrDefault(id.toString(), true) && spell.getElement() == this.getElement()) {
                 list.add(spell);
             }
         }
@@ -152,9 +176,16 @@ public class WandItem extends Item implements SpellAttributable {
     @Environment(EnvType.CLIENT)
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        Spell spell = null;
         if (stack.getOrCreateSubNbt(Archon.MODID).contains("CurrentSpell")) {
             String name = stack.getOrCreateSubNbt(Archon.MODID).getString("CurrentSpell");
-            Spell spell = SpellRegistry.REGISTRY.get(new Identifier(name));
+            Spell candidate = SpellRegistry.REGISTRY.get(new Identifier(name));
+            if (candidate != null && Archon.CONFIG.enabledSpells.getOrDefault(name, true)) {
+                spell = candidate;
+            }
+        }
+
+        if (spell != null) {
             tooltip.add(Text.translatable("text.archon.current_spell", Text.translatable(spell.getTranslationKey()).getString()).formatted(Formatting.GRAY));
             tooltip.add(ArchonUtil.createManaText(spell.getManaCost(), false));
         } else {

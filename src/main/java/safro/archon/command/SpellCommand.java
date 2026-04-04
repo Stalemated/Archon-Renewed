@@ -10,6 +10,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import safro.archon.Archon;
 import safro.archon.api.spell.Spell;
 import safro.archon.registry.ComponentsRegistry;
 import safro.archon.registry.SpellRegistry;
@@ -36,14 +38,19 @@ public class SpellCommand {
 
     private static int getAllSpells(ServerCommandSource source, ServerPlayerEntity player) {
         List<Spell> spells = ArchonUtil.getSpells(player);
-        if (spells.size() <= 0) {
-            source.sendFeedback(() -> Text.translatable("command.archon.spell.no_spells"), false);
-        } else {
-            for (Spell s : spells) {
+        int count = 0;
+        for (Spell s : spells) {
+            Identifier id = SpellRegistry.REGISTRY.getId(s);
+            if (id != null && Archon.CONFIG.enabledSpells.getOrDefault(id.toString(), true)) {
                 source.sendFeedback(() -> Text.translatable(s.getTranslationKey()).setStyle(Style.EMPTY.withColor(s.getElement().getColor())), false);
+                count++;
             }
         }
-        return spells.size();
+
+        if (count == 0) {
+            source.sendFeedback(() -> Text.translatable("command.archon.spell.no_spells"), false);
+        }
+        return count;
     }
 
     private static int removeSpell(ServerCommandSource source, ServerPlayerEntity player, RegistryEntry.Reference<Spell> reference) {
