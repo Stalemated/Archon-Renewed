@@ -8,7 +8,9 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import safro.archon.Archon;
 import safro.archon.api.summon.Summon;
+import safro.archon.api.summon.SummonHandler;
 import safro.archon.item.SoulTomeItem;
 import safro.archon.item.UndeadStaffItem;
 import safro.archon.registry.ItemRegistry;
@@ -46,6 +48,8 @@ public class SoulBindingRecipe extends SpecialCraftingRecipe {
 
         if (!staff.isEmpty() && !tome.isEmpty()) {
             Summon tomeSummon = ((SoulTomeItem)tome.getItem()).getSummon();
+            String id = SummonHandler.getId(tomeSummon);
+            if (id == null || !Archon.CONFIG.enabledSummons.getOrDefault(id, true)) return false;
             return !UndeadStaffItem.getSummons(staff).contains(tomeSummon);
         } else {
             return false;
@@ -78,7 +82,8 @@ public class SoulBindingRecipe extends SpecialCraftingRecipe {
 
         if (!staff.isEmpty() && !tome.isEmpty()) {
             Summon tomeSummon = ((SoulTomeItem)tome.getItem()).getSummon();
-            if (!UndeadStaffItem.getSummons(staff).contains(tomeSummon)) {
+            String id = SummonHandler.getId(tomeSummon);
+            if (id != null && Archon.CONFIG.enabledSummons.getOrDefault(id, true) && !UndeadStaffItem.getSummons(staff).contains(tomeSummon)) {
                 ItemStack result = staff.copyWithCount(1);
                 UndeadStaffItem.addSummon(tomeSummon, result);
                 return result;

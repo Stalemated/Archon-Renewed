@@ -8,11 +8,10 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.plugin.client.categories.crafting.filler.CraftingRecipeFiller;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomShapelessDisplay;
 import net.minecraft.item.ItemStack;
-import safro.archon.Archon;
 import safro.archon.item.SoulTomeItem;
 import safro.archon.item.UndeadStaffItem;
 import safro.archon.recipe.SoulBindingRecipe;
-import safro.saflib.SafLib;
+import safro.archon.registry.SummonRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,10 +26,10 @@ public class SoulBindingRecipeFiller implements CraftingRecipeFiller<SoulBinding
 
         for (EntryStack<?> entry : stacks) {
             ItemStack staff = entry.castValue();
-            for (ItemStack tome : SafLib.getItemsFor(Archon.MODID).stream().filter(s -> s.getItem() instanceof SoulTomeItem).toList()) {
+            for (SoulTomeItem tome : SummonRegistry.TOMES) {
                 ItemStack output = staff.copy();
                 displays.add(new DefaultCustomShapelessDisplay(soulBindingRecipe,
-                        List.of(EntryIngredient.of(entry.copy()), EntryIngredients.of(tome.copy())),
+                        List.of(EntryIngredient.of(entry.copy()), EntryIngredients.of(new ItemStack(tome))),
                         List.of(EntryIngredients.of(output))
                 ));
             }

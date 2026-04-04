@@ -43,10 +43,10 @@ public class LootTableRegistry {
         LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (LootTables.ANCIENT_CITY_CHEST.equals(id)) {
                 LootPool pool = createForSummon(0.4F);
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             } else if (LootTables.BASTION_TREASURE_CHEST.equals(id) || LootTables.BASTION_BRIDGE_CHEST.equals(id)) {
                 LootPool pool = createForSummon(0.35F);
-                tableBuilder.pool(pool);
+                if (pool != null) tableBuilder.pool(pool);
             }
         }));
     }
@@ -70,6 +70,7 @@ public class LootTableRegistry {
     }
 
     private static LootPool createForSummon(float chance) {
+        if (SummonRegistry.TOMES.isEmpty()) return null;
         LootPool.Builder builder = LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).conditionally(RandomChanceLootCondition.builder(chance));
         int weight = 100 / SummonRegistry.TOMES.size();
         for (SoulTomeItem item : SummonRegistry.TOMES) {

@@ -61,16 +61,22 @@ public class UndeadStaffItem extends Item {
             Summon current = getCurrentSummon(stack);
             if (player.isSneaking()) {
                 cycleSummons(stack);
-                player.sendMessage(Text.translatable(getCurrentSummon(stack).getTranslationKey()).formatted(Formatting.GREEN), true);
+                Summon summon = getCurrentSummon(stack);
+                if (summon != null) {
+                    player.sendMessage(Text.translatable(summon.getTranslationKey()).formatted(Formatting.GREEN), true);
+                }
                 return TypedActionResult.success(stack);
 
             } else if (current != null && ArchonUtil.canRemoveMana(player, 100)) {
-                int soulPower = getSoulPower(stack);
-                current.onSummon((ServerWorld)world, player, soulPower);
-                ArcaneEnchantment.applyArcane(player, stack, 100);
-                player.getItemCooldownManager().set(this, 100);
-                world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_WARDEN_EMERGE, SoundCategory.PLAYERS, 0.9F, 1.0F);
-                return TypedActionResult.success(stack);
+                String summonId = SummonHandler.getId(current);
+                if (summonId != null && Archon.CONFIG.enabledSummons.getOrDefault(summonId, true)) {
+                    int soulPower = getSoulPower(stack);
+                    current.onSummon((ServerWorld)world, player, soulPower);
+                    ArcaneEnchantment.applyArcane(player, stack, 100);
+                    player.getItemCooldownManager().set(this, 100);
+                    world.playSound(null, player.getBlockPos(), SoundEvents.ENTITY_WARDEN_EMERGE, SoundCategory.PLAYERS, 0.9F, 1.0F);
+                    return TypedActionResult.success(stack);
+                }
             }
         }
         return TypedActionResult.pass(stack);
@@ -101,7 +107,10 @@ public class UndeadStaffItem extends Item {
         NbtList nbtList = stack.getOrCreateNbt().getList("Summons", NbtCompound.COMPOUND_TYPE);
         for (int i = 0; i < nbtList.size(); i++) {
             NbtCompound tag = nbtList.getCompound(i);
-            list.add(SummonHandler.fromString(tag.getString("Id")));
+            String id = tag.getString("Id");
+            if (Archon.CONFIG.enabledSummons.getOrDefault(id, true)) {
+                list.add(SummonHandler.fromString(id));
+            }
         }
         return list;
     }
@@ -115,7 +124,7 @@ public class UndeadStaffItem extends Item {
                 tag.putString("Id", id);
                 nbtList.add(tag);
             } else {
-                Archon.LOGGER.error("Skipping saving " + s + " as it does not have a registered identifier.");
+                Archon.LOGGER.error("Skipping saving {} as it does not have a registered identifier.", s);
             }
         }
         stack.getOrCreateNbt().put("Summons", nbtList);
@@ -142,8 +151,9 @@ public class UndeadStaffItem extends Item {
     @Environment(EnvType.CLIENT)
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (getCurrentSummon(stack) != null) {
-            String key = getCurrentSummon(stack).getTranslationKey();
+        Summon summon = getCurrentSummon(stack);
+        if (summon != null) {
+            String key = summon.getTranslationKey();
             tooltip.add(Text.translatable("text.archon.current_summon", Text.translatable(key).getString()).formatted(Formatting.GRAY));
         } else {
             tooltip.add(Text.translatable("text.archon.summon_none").formatted(Formatting.GRAY));

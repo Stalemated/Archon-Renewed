@@ -131,6 +131,21 @@ public class ArchonConfig implements Config {
                 put("archon:warp", true);
     }};
 
+    @Comment("""
+              Enable or disable specific soul summons.
+              Accepts "true" or "false"
+              Example: "archon:hound_pack": false to disable Hound Pack
+              Default: true
+             """)
+    @Syncing
+    public Map<String, Boolean> enabledSummons = new HashMap<>() {{
+        put("archon:hound_pack", true);
+        put("archon:silver_swarm", true);
+        put("archon:archer", true);
+        put("archon:twin_knights", true);
+        put("archon:titan", true);
+    }};
+
     @Override
     public String getName() {
         return "archon";
