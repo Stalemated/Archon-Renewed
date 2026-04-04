@@ -61,14 +61,13 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
     public static boolean canAddXp(ServerPlayerEntity player, ItemStack stack, int amount) {
         if (stack.getItem() instanceof ExperiencePouchItem pouch) {
             if (getTotalXp(player) >= amount) {
-                return getExperience(stack) < pouch.getMaxXp();
+                return getExperience(stack) + amount <= pouch.getMaxXp();
             }
         }
         return false;
     }
 
-    // Credit to XP Tome mod
-    private static int getTotalXp(ServerPlayerEntity player) {
+    public static int getTotalXp(ServerPlayerEntity player) {
         int level = player.experienceLevel;
         if (level == 0) return 0;
         if (level <= 15) return sum(level, 7, 2);
