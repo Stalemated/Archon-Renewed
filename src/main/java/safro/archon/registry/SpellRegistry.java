@@ -29,12 +29,12 @@ public class SpellRegistry {
 
     // Fire
     public static final Spell FIREBALL = register("fireball", new FireballSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("fireball", 20)));
-    public static final Spell INCOMBUSTIBLE = register("incombustible", new EffectSpell(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1200, 1), Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("incombustible", 20)));
+    public static final Spell INCOMBUSTIBLE = register("incombustible", new EffectSpell(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, Math.round(Archon.CONFIG.spellDuration.getOrDefault("incombustible", 60.0f) * 20), 1), Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("incombustible", 20)));
     public static final Spell SCORCH = register("scorch", new ScorchSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("scorch", 30)));
     public static final Spell HELLBEAM = register("hellbeam", new HellbeamSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("hellbeam", 10)));
 
     // Water
-    public static final Spell AQUA_SHIELD = register("aqua_shield", new EffectSpell(new StatusEffectInstance(EffectRegistry.AQUA_SHIELD, 200, 0, false, false, true), Element.WATER, Archon.CONFIG.spellManaCost.getOrDefault("aqua_shield", 100)));
+    public static final Spell AQUA_SHIELD = register("aqua_shield", new EffectSpell(new StatusEffectInstance(EffectRegistry.AQUA_SHIELD, Math.round(Archon.CONFIG.spellDuration.getOrDefault("aqua_shield", 10.0f) * 20), 0, false, false, true), Element.WATER, Archon.CONFIG.spellManaCost.getOrDefault("aqua_shield", 100)));
     public static final Spell FREEZE = register("freeze", new FreezeSpell(Element.WATER, Archon.CONFIG.spellManaCost.getOrDefault("freeze", 10)));
     public static final Spell MEND = register("mend", new MendSpell(Element.WATER, Archon.CONFIG.spellManaCost.getOrDefault("mend", 40)));
     public static final Spell OVERCAST = register("overcast", new WeatherSpell(Element.WATER, Archon.CONFIG.spellManaCost.getOrDefault("overcast", 90), true));
@@ -53,13 +53,13 @@ public class SpellRegistry {
     public static final Spell CRUSH = register("crush", new CrushSpell(Element.EARTH, Archon.CONFIG.spellManaCost.getOrDefault("crush", 2)));
     public static final Spell SPIKE = register("spike", new SpikeSpell(Element.EARTH, Archon.CONFIG.spellManaCost.getOrDefault("spike", 20)));
     public static final Spell TERRAIN_TOSS = register("terrain_toss", new TerrainTossSpell(Element.EARTH, Archon.CONFIG.spellManaCost.getOrDefault("terrain_toss", 10)));
-    public static final Spell RAGE = register("rage", new EffectSpell(new StatusEffectInstance(EffectRegistry.RAGE, 140, 0, false, false, true), Element.EARTH, Archon.CONFIG.spellManaCost.getOrDefault("rage", 40)));
+    public static final Spell RAGE = register("rage", new EffectSpell(new StatusEffectInstance(EffectRegistry.RAGE, Math.round(Archon.CONFIG.spellDuration.getOrDefault("rage", 7.0f) * 20), 0, false, false, true), Element.EARTH, Archon.CONFIG.spellManaCost.getOrDefault("rage", 40)));
 
     // End
     public static final Spell DARKBALL = register("darkball", new DarkballSpell(Element.END, Archon.CONFIG.spellManaCost.getOrDefault("darkball", 10)));
     public static final Spell SWAP = register("swap", new SwapSpell(Element.END, Archon.CONFIG.spellManaCost.getOrDefault("swap", 40)));
     public static final Spell ENDER = register("ender", new EnderSpell(Element.END, Archon.CONFIG.spellManaCost.getOrDefault("ender", 20)));
-    public static final Spell SHADOW = register("shadow", new EffectSpell(new StatusEffectInstance(EffectRegistry.SHADOW, 200, 0, false, false, true), Element.END, Archon.CONFIG.spellManaCost.getOrDefault("shadow", 70)));
+    public static final Spell SHADOW = register("shadow", new EffectSpell(new StatusEffectInstance(EffectRegistry.SHADOW, Math.round(Archon.CONFIG.spellDuration.getOrDefault("shadow", 10.0f) * 20), 0, false, false, true), Element.END, Archon.CONFIG.spellManaCost.getOrDefault("shadow", 70)));
     public static final Spell ASTROFALL = register("astrofall", new AstrofallSpell(Element.END, Archon.CONFIG.spellManaCost.getOrDefault("astrofall", 80)));
     public static final Spell WARP = register("warp", new WarpSpell(Element.END, Archon.CONFIG.spellManaCost.getOrDefault("warp", 10)));
 

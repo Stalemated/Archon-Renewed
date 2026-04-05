@@ -9,6 +9,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.spell_power.api.SpellPower;
+import safro.archon.Archon;
 import safro.archon.api.Element;
 import safro.archon.api.spell.Spell;
 import safro.archon.registry.SpellRegistry;
@@ -23,9 +24,9 @@ public class EffectSpell extends Spell {
 
     @Override
     public void cast(World world, PlayerEntity player, SpellPower.Result power, ItemStack stack) {
-        int amplifier = instance.getAmplifier() == 0 ? 0 : (int) MathHelper.clamp(power.nonCriticalValue(), 1.0D, 10.0D) - 1;
-        int duration = instance.getDuration() + ((int)power.nonCriticalValue() * 40);
-        StatusEffectInstance effect = new StatusEffectInstance(instance.getEffectType(), instance.getAmplifier() == 0 ? duration : instance.getDuration(), amplifier, instance.isAmbient(), instance.shouldShowParticles(), instance.shouldShowIcon());
+        int amplifier = instance.getAmplifier();
+        int duration = instance.getDuration() + MathHelper.floor(power.nonCriticalValue() * 20 * Archon.CONFIG.spellEffectDurationMultiplier);
+        StatusEffectInstance effect = new StatusEffectInstance(instance.getEffectType(), duration, amplifier, instance.isAmbient(), instance.shouldShowParticles(), instance.shouldShowIcon());
         player.addStatusEffect(effect);
 
         // Hard-coded for Aqua Shield

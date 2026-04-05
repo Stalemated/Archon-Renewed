@@ -132,10 +132,9 @@ public class ArchonConfig implements Config {
     }};
 
     @Comment("""
-              Enable or disable specific spells.
-              Accepts "true" or "false"
-              Example: "fireball": false to disable Fireball
-              Default: true
+              Change specific spells' mana cost.
+              Accepts integers.
+              Example: "fireball": 40 to set Fireball's mana cost to 40.
              """)
     @Syncing
     public Map<String, Integer> spellManaCost = new HashMap<>() {{
@@ -170,6 +169,26 @@ public class ArchonConfig implements Config {
         put("astrofall", 80);
         put("warp", 10);
     }};
+
+    @Comment("""
+              Change the duration of effects given by spells (in seconds).
+              Accepts decimals.
+             """)
+    @Syncing
+    public Map<String, Float> spellDuration = new HashMap<>() {{
+        put("incombustible", 60.0f);
+        put("aqua_shield", 10.0f);
+        put("rage", 7.0f);
+        put("shadow", 10.0f);
+    }};
+
+    @Comment("""
+             The bonus multiplier for spell power to add to the effect's timer.
+             Formula (result in seconds): effectDuration = effectDuration + spellPower * spellEffectDurationMultiplier
+             Default: 2.0
+            """)
+    @Syncing
+    public float spellEffectDurationMultiplier = 2.0f;
 
     @Comment("""
               Enable or disable specific soul summons.
