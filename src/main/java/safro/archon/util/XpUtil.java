@@ -8,6 +8,7 @@ public class XpUtil {
         return (int)(getXpForLevel(player.experienceLevel) + (player.experienceProgress * xpBarCap(player.experienceLevel)));
     }
 
+    // Handles addition (and subtraction) of player xp
     public static void addPlayerXP(ServerPlayerEntity player, int amount) {
         int experience = getPlayerXP(player) + amount;
         player.totalExperience = experience;
@@ -16,7 +17,7 @@ public class XpUtil {
         player.experienceProgress = (float)(experience - expForLevel) / (float)xpBarCap(player.experienceLevel);
     }
 
-    // Calcula qué nivel corresponde a una cantidad de puntos totales
+    // Calculates which level corresponds to a total amount of points
     public static int getLevelForExperience(int targetXp) {
         int level = 0;
         while (true) {
@@ -27,14 +28,14 @@ public class XpUtil {
         }
     }
 
-    // Calcula cuántos puntos se necesitan para llegar desde 0 hasta un nivel
+    // Calculates how many xp points are needed to get from 0 to x level
     public static int getXpForLevel(int level) {
         if (level <= 15) return sum(level, 7, 2);
         if (level <= 30) return 315 + sum(level - 15, 37, 5);
         return 1395 + sum(level - 30, 112, 9);
     }
 
-    // Calcula la capacidad de la barra en un nivel específico
+    // Calculates xp bar capacity correctly
     public static int xpBarCap(int level) {
         if (level >= 30) return 112 + (level - 30) * 9;
         if (level >= 15) return 37 + (level - 15) * 5;
