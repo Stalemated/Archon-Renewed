@@ -13,6 +13,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.spell_power.api.SpellPower;
 import org.jetbrains.annotations.Nullable;
+import safro.archon.Archon;
 import safro.archon.api.Element;
 import safro.archon.api.spell.Spell;
 import safro.archon.registry.ParticleRegistry;
@@ -30,7 +31,13 @@ public class MendSpell extends Spell {
         List<StatusEffect> list = player.getActiveStatusEffects().keySet().stream().filter(effect -> effect.getCategory().equals(StatusEffectCategory.HARMFUL)).toList();
         list.forEach(player::removeStatusEffect);
 
-        player.heal(6.0F * (float)power.nonCriticalValue());
+        if(Archon.CONFIG.enableAlternateMendScalingFormula) {
+            // heal = maxPlayerHealth * maxMendHealingPercentage * min(maxBonusHealingMultiplier, 1 + mendSpellScaling * ln(1 + max(spellPower - minMendSpellPower, 0)))
+            player.heal((float) (player.getMaxHealth() * Archon.CONFIG.maxMendHealingPercentage * Math.min(Archon.CONFIG.maxBonusHealingMultiplier, 1 + Archon.CONFIG.mendSpellScaling * Math.log(1 + Math.max((float)power.nonCriticalValue() - Archon.CONFIG.minMendSpellPower, 0.0f)))));
+        } else {
+            player.heal(6.0F * (float)power.nonCriticalValue());
+        }
+
         if (world instanceof ServerWorld serverWorld) {
             for (int i = 0; i < 3; i++) {
                 this.displayParticles(serverWorld, player.getBlockPos().up(), player.getRandom());
