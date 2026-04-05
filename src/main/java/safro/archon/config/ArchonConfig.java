@@ -94,56 +94,96 @@ public class ArchonConfig implements Config {
     @Comment("""
               Enable or disable specific spells.
               Accepts "true" or "false"
-              Example: "archon:fireball": false to disable Fireball
+              Example: "fireball": false to disable Fireball
               Default: true
              """)
     @Syncing
     public Map<String, Boolean> enabledSpells = new HashMap<>() {{
-                put("archon:fireball", true);
-                put("archon:incombustible", true);
-                put("archon:scorch", true);
-                put("archon:hellbeam", true);
+                put("fireball", true);
+                put("incombustible", true);
+                put("scorch", true);
+                put("hellbeam", true);
 
-                put("archon:aqua_shield", true);
-                put("archon:freeze", true);
-                put("archon:mend", true);
-                put("archon:overcast", true);
-                put("archon:bubble_beam", true);
+                put("aqua_shield", true);
+                put("freeze", true);
+                put("mend", true);
+                put("overcast", true);
+                put("bubble_beam", true);
 
-                put("archon:propel", true);
-                put("archon:gust", true);
-                put("archon:thunder_strike", true);
-                put("archon:cloudshot", true);
-                put("archon:clearing_breeze", true);
-                put("archon:vacuum", true);
+                put("propel", true);
+                put("gust", true);
+                put("thunder_strike", true);
+                put("cloudshot", true);
+                put("clearing_breeze", true);
+                put("vacuum", true);
 
-                put("archon:rumble", true);
-                put("archon:crush", true);
-                put("archon:spike", true);
-                put("archon:terrain_toss", true);
-                put("archon:rage", true);
+                put("rumble", true);
+                put("crush", true);
+                put("spike", true);
+                put("terrain_toss", true);
+                put("rage", true);
 
-                put("archon:darkball", true);
-                put("archon:swap", true);
-                put("archon:ender", true);
-                put("archon:shadow", true);
-                put("archon:astrofall", true);
-                put("archon:warp", true);
+                put("darkball", true);
+                put("swap", true);
+                put("ender", true);
+                put("shadow", true);
+                put("astrofall", true);
+                put("warp", true);
+    }};
+
+    @Comment("""
+              Enable or disable specific spells.
+              Accepts "true" or "false"
+              Example: "fireball": false to disable Fireball
+              Default: true
+             """)
+    @Syncing
+    public Map<String, Integer> spellManaCost = new HashMap<>() {{
+        put("fireball", 20);
+        put("incombustible", 50);
+        put("scorch", 30);
+        put("hellbeam", 10);
+
+        put("aqua_shield", 100);
+        put("freeze", 10);
+        put("mend", 40);
+        put("overcast", 90);
+        put("bubble_beam", 10);
+
+        put("propel", 10);
+        put("gust", 20);
+        put("thunder_strike", 30);
+        put("cloudshot", 10);
+        put("clearing_breeze", 90);
+        put("vacuum", 50);
+
+        put("rumble", 40);
+        put("crush", 2);
+        put("spike", 20);
+        put("terrain_toss", 10);
+        put("rage", 40);
+
+        put("darkball", 10);
+        put("swap", 40);
+        put("ender", 20);
+        put("shadow", 70);
+        put("astrofall", 80);
+        put("warp", 10);
     }};
 
     @Comment("""
               Enable or disable specific soul summons.
               Accepts "true" or "false"
-              Example: "archon:hound_pack": false to disable Hound Pack
+              Example: "hound_pack": false to disable Hound Pack
               Default: true
              """)
     @Syncing
     public Map<String, Boolean> enabledSummons = new HashMap<>() {{
-        put("archon:hound_pack", true);
-        put("archon:silver_swarm", true);
-        put("archon:archer", true);
-        put("archon:twin_knights", true);
-        put("archon:titan", true);
+        put("hound_pack", true);
+        put("silver_swarm", true);
+        put("archer", true);
+        put("twin_knights", true);
+        put("titan", true);
     }};
 
     @Comment("""

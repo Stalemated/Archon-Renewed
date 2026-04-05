@@ -24,11 +24,11 @@ public class SummonRegistry {
     public static final Summon TITAN = SummonHandler.register("titan", new TitanSummon());
 
     public static void init() {
-        if (Archon.CONFIG.enabledSummons.getOrDefault("archon:hound_pack", true)) createTome("hound_pack", HOUND_PACK);
-        if (Archon.CONFIG.enabledSummons.getOrDefault("archon:silver_swarm", true)) createTome("silver_swarm", SILVER_SWARM);
-        if (Archon.CONFIG.enabledSummons.getOrDefault("archon:archer", true)) createTome("archer", ARCHER);
-        if (Archon.CONFIG.enabledSummons.getOrDefault("archon:twin_knights", true)) createTome("twin_knights", TWIN_KNIGHTS);
-        if (Archon.CONFIG.enabledSummons.getOrDefault("archon:titan", true)) createTome("titan", TITAN);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("hound_pack", true)) createTome("hound_pack", HOUND_PACK);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("silver_swarm", true)) createTome("silver_swarm", SILVER_SWARM);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("archer", true)) createTome("archer", ARCHER);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("twin_knights", true)) createTome("twin_knights", TWIN_KNIGHTS);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("titan", true)) createTome("titan", TITAN);
     }
 
     public static SoulTomeItem createTome(String name, Summon summon) {
