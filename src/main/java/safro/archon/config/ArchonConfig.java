@@ -191,6 +191,13 @@ public class ArchonConfig implements Config {
     public float spellEffectDurationMultiplier = 2.0f;
 
     @Comment("""
+             The mana reduction multiplier that each level of the Arcane enchantment adds.
+             Default: 0.1 (10%)
+            """)
+    @Syncing
+    public float arcaneEnchantmentLevelMultiplier = 0.1f;
+
+    @Comment("""
               Enable or disable specific soul summons.
               Accepts "true" or "false"
               Example: "hound_pack": false to disable Hound Pack
@@ -206,42 +213,32 @@ public class ArchonConfig implements Config {
     }};
 
     @Comment("""
-             Enables the alternate mend spell scaling formula:
-             heal = maxPlayerHealth * maxMendHealingPercentage * min(maxBonusHealingMultiplier, 1 + mendSpellScaling * ln(1 + max(spellPower - minMendSpellPower, 0)))
-             Default: false
+             enableAlternateMendScalingFormula:
+             - Enables the alternate mend spell scaling formula
+             - heal = maxPlayerHealth * maxMendHealingPercentage * min(maxBonusHealingMultiplier, 1 + mendSpellScaling * ln(1 + max(spellPower - minMendSpellPower, 0)))
+             - Default: false
+             Mend spell config - No effect if the alternate formula is disabled.
+             maxMendHealingPercentage:
+             - Maximum amount of health that can be restored by one use of the Mend spell.
+             - Default: 0.1
+             maxBonusHealingMultiplier:
+             - Maximum bonus healing multiplier from additional spell power for maxMendHealingPercentage.
+             - Default: 1.1
+             mendSpellScaling:
+             - Spell power coefficient which the Mend spell scales with in the alternate formula.
+             - Default: 0.03
+             minMendSpellPower:
+             - Minimum spell power to apply bonus healing when using the Mend spell.
+             - Default: 5
             """)
     @Syncing
     public boolean enableAlternateMendScalingFormula = false;
-
-    @Comment("""
-             Maximum amount of health that can be restored by one use of the Mend spell.
-             No effect if the alternate formula is disabled.
-             Default: 0.1
-            """)
     @Syncing
     public float maxMendHealingPercentage = 0.1f;
-
-    @Comment("""
-             Maximum bonus healing multiplier from additional spell power for maxMendHealingPercentage.
-             No effect if the alternate formula is disabled.
-             Default: 1.1
-            """)
     @Syncing
     public float maxBonusHealingMultiplier = 1.1f;
-
-    @Comment("""
-             Spell power coefficient which the Mend spell scales with in the alternate formula.
-             No effect if the alternate formula is disabled.
-             Default: 0.03
-            """)
     @Syncing
     public float mendSpellScaling = 0.03f;
-
-    @Comment("""
-             Minimum spell power to apply bonus healing when using the Mend spell.
-             No effect if the alternate formula is disabled.
-             Default: 5.0
-            """)
     @Syncing
     public float minMendSpellPower = 5.0f;
 

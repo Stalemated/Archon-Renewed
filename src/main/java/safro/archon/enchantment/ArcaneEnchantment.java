@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import safro.archon.Archon;
 import safro.archon.item.SpellWeaponItem;
 import safro.archon.item.UndeadStaffItem;
 import safro.archon.item.WandItem;
@@ -43,7 +44,7 @@ public class ArcaneEnchantment extends Enchantment {
     public static void applyArcane(PlayerEntity player, ItemStack stack, int manaCost) {
         int level = EnchantmentHelper.getLevel(MiscRegistry.ARCANE, stack);
         if (level >= 1) {
-            double raw = manaCost * (0.1 * level);
+            double raw = manaCost * (Archon.CONFIG.arcaneEnchantmentLevelMultiplier * level);
             int removed = (int) Math.round(raw);
             ArchonUtil.get(player).removeMana(manaCost - removed);
         } else {
