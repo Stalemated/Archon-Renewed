@@ -29,7 +29,7 @@ public class SpellRegistry {
 
     // Fire
     public static final Spell FIREBALL = register("fireball", new FireballSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("fireball", 20)));
-    public static final Spell INCOMBUSTIBLE = register("incombustible", new EffectSpell(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, Math.round(Archon.CONFIG.spellEffectDuration.getOrDefault("incombustible", 60.0f) * 20), 1), Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("incombustible", 20)));
+    public static final Spell INCOMBUSTIBLE = register("incombustible", new EffectSpell(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, Math.round(Archon.CONFIG.spellEffectDuration.getOrDefault("incombustible", 60.0f) * 20), 0), Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("incombustible", 20)));
     public static final Spell SCORCH = register("scorch", new ScorchSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("scorch", 30)));
     public static final Spell HELLBEAM = register("hellbeam", new HellbeamSpell(Element.FIRE, Archon.CONFIG.spellManaCost.getOrDefault("hellbeam", 10)));
 
