@@ -171,16 +171,26 @@ public class ArchonConfig implements Config {
     }};
 
     @Comment("""
-              Change the duration of effects given by spells (in seconds).
-              Accepts decimals.
+              spellEffectDuration:
+              - Change the duration of effects given by spells (in seconds).
+              - Accepts decimals.
+              spellEffectAmplifier:
+              - Change the amplifier of effects given by spells (level - 1).
+              - Accepts integers.
              """)
     @Syncing
-    public Map<String, Float> spellDuration = new HashMap<>() {{
+    public Map<String, Float> spellEffectDuration = new HashMap<>() {{
         put("incombustible", 60.0f);
         put("aqua_shield", 10.0f);
         put("rage", 7.0f);
         put("shadow", 10.0f);
     }};
+    @Syncing
+    public Map<String, Integer> spellEffectAmplifier = new HashMap<>() {{
+        put("aqua_shield", 2);
+        put("rage", 0);
+    }};
+
 
     @Comment("""
              The bonus multiplier for spell power to add to the effect's timer.

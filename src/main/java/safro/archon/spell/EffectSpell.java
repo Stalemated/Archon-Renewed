@@ -31,7 +31,7 @@ public class EffectSpell extends Spell {
 
         // Hard-coded for Aqua Shield
         if (this == SpellRegistry.AQUA_SHIELD) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, 3, false, false, true));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, duration, amplifier, false, false, true));
         }
     }
 
