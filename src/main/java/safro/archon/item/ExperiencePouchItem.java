@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -50,34 +49,6 @@ public class ExperiencePouchItem extends Item implements NamedScreenHandlerFacto
 
     public static void addExperience(ItemStack stack, int amount) {
         stack.getOrCreateSubNbt(Archon.MODID).putInt("xp", getExperience(stack) + amount);
-    }
-
-    public static void grantExperience(ItemStack stack, ServerPlayerEntity player, int amount) {
-        player.addExperience(amount);
-        int total = getExperience(stack) - amount;
-        stack.getOrCreateSubNbt(Archon.MODID).putInt("xp", total);
-    }
-
-    public static boolean canAddXp(ServerPlayerEntity player, ItemStack stack, int amount) {
-        if (stack.getItem() instanceof ExperiencePouchItem pouch) {
-            if (getTotalXp(player) >= amount) {
-                return getExperience(stack) + amount <= pouch.getMaxXp();
-            }
-        }
-        return false;
-    }
-
-    public static int getTotalXp(ServerPlayerEntity player) {
-        int level = player.experienceLevel;
-        if (level == 0) return 0;
-        if (level <= 15) return sum(level, 7, 2);
-        if (level <= 30) return 315 + sum(level - 15, 37, 5);
-        int i = 1395 + sum(level - 30, 112, 9);
-        return (int) (i + (player.experienceProgress * player.getNextLevelExperience()));
-    }
-
-    private static int sum(int n, int a0, int d) {
-        return n * (2 * a0 + (n - 1) * d) / 2;
     }
 
     public boolean hasGlint(ItemStack stack) {
