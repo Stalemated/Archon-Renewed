@@ -27,7 +27,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "archon:sky_node",
-      "text": "Sky node veins generate in small clouds in the Overloard. The clouds generate between y 192 and 196, also containing bits of iron. The nodes drop 1 Sky Essence."
+      "text": "Sky node veins generate in small clouds in the Overworld. The clouds generate between y 192 and 196, also containing bits of iron. The nodes drop 1 Sky Essence. Sky node veins will generate in mountain biomes between y 128 and 192 if cloud generation is disabled in the config."
     }
   ]
 }
