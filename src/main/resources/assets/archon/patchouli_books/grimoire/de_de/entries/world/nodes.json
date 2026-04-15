@@ -27,7 +27,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "archon:sky_node",
-      "text": "Himmels Juwelenerze entstehen in kleinen Wolken in der Overworld. Die Wolken entstehen auf der Höhe von 192 und 196 und enthalten auch Eisenstücke. Beim abbau erhält man 1 Himmels Juwel."
+      "text": "Himmels Juwelenerze entstehen in kleinen Wolken in der Overworld. Die Wolken entstehen auf der Höhe von 192 und 196 und enthalten auch Eisenstücke. Beim abbau erhält man 1 Himmels Juwel. Himmels Juwelenerze generieren auch in Berg-Biomen zwischen 128 - 192, wenn die Wolken in der Config diese ausgeschalten hat."
     }
   ]
 }
