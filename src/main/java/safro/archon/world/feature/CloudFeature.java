@@ -9,6 +9,7 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
+import safro.archon.Archon;
 import safro.archon.registry.BlockRegistry;
 
 public class CloudFeature extends Feature<DefaultFeatureConfig> {
@@ -18,6 +19,9 @@ public class CloudFeature extends Feature<DefaultFeatureConfig> {
     }
 
     public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+
+        if (!Archon.CONFIG.enableCloudGeneration) return false;
+
         StructureWorldAccess world = context.getWorld();
         Random random = context.getRandom();
         BlockPos pos = context.getOrigin();

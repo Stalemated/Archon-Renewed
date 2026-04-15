@@ -90,6 +90,14 @@ public class ArchonConfig implements Config {
             """)
     @Syncing
     public int superExperiencePouchMax = 2920;
+
+    @Comment("""
+              Enable or disable cloud generation.
+              Accepts "true" or "false"
+              Default: true
+            """)
+    @Syncing
+    public boolean enableCloudGeneration = true;
     
     @Comment("""
               Enable or disable specific spells.
