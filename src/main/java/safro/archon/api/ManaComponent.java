@@ -7,6 +7,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
+import safro.archon.Archon;
 import safro.archon.registry.ComponentsRegistry;
 import safro.archon.registry.EffectRegistry;
 
@@ -16,6 +17,7 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
     private final PlayerEntity player;
     private int mana = 0;
     private int manaTickTimer;
+    private int regenSpeed = Archon.CONFIG.manaRegenTickAmount;
 
     public ManaComponent(PlayerEntity player) {
         this.player = player;
@@ -26,7 +28,7 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
         this.clampMana();
         if (this.getMana() < this.getMaxMana()) {
             ++this.manaTickTimer;
-            if (this.manaTickTimer >= 4) {
+            if (this.manaTickTimer >= this.regenSpeed) {
                 ++this.mana;
                 this.manaTickTimer = 0;
                 ComponentsRegistry.MANA_COMPONENT.sync(player);
@@ -113,5 +115,14 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public int getMaxMana() {
         return (int)player.getAttributeValue(ManaAttributes.MAX_MANA);
+    }
+
+    public void setRegenSpeed(int i) {
+        this.regenSpeed = i;
+        ComponentsRegistry.MANA_COMPONENT.sync(player);
+    }
+
+    public float getRegenSpeed() {
+        return this.regenSpeed;
     }
 }

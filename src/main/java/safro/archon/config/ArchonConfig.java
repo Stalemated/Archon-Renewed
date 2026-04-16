@@ -78,18 +78,43 @@ public class ArchonConfig implements Config {
     public boolean enableScreenShake = true;
 
     @Comment("""
-             The max amount of experience the standard experience pouch can hold.
-             Default: 550
+             The max amount of experience the experience pouches can hold.
+             Accepts integers.
+             Default: 550 (Regular)
+             Default: 2920 (Super)
             """)
     @Syncing
     public int experiencePouchMax = 550;
-
-    @Comment("""
-             The max amount of experience the super experience pouch can hold.
-             Default: 2920
-            """)
     @Syncing
     public int superExperiencePouchMax = 2920;
+
+    @Comment("""
+             The amount of game ticks needed to regen exactly 1 mana. (Less is faster regen)
+             Accepts integers.
+             Default: 4
+            """)
+    @Syncing
+    public int manaRegenTickAmount = 4;
+
+    @Comment("""
+            
+             --- SCROLLS ---
+            
+             The amount of mana a Capacity Scroll adds to the player.
+             Accepts integers.
+             Default: 100
+            """)
+    @Syncing
+    public int capacityScrollAddAmount = 100;
+    @Comment("""
+             How much faster the player regenerates mana when using an Accelerate Scroll.
+             Formula: round(manaRegenTickAmount / accelerateScrollMultiplier)
+             Accepts decimals.
+             Default: 2
+            """)
+    @Syncing
+    public float accelerateScrollMultiplier = 2;
+
 
     @Comment("""
               Enable or disable cloud generation.

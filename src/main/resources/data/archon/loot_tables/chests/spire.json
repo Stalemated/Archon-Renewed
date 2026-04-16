@@ -102,6 +102,11 @@
           "type": "minecraft:item",
           "weight": 50,
           "name": "archon:removal_scroll"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 50,
+          "name": "archon:accelerate_scroll"
         }
       ]
     }

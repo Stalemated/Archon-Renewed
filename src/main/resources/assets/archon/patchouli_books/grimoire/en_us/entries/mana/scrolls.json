@@ -11,12 +11,17 @@
     {
       "type": "patchouli:spotlight",
       "item": "archon:capacity_scroll",
-      "text": "The Capacity scroll can be obtained as a trade from the $(l:archon:world/wizard)Wizard$() villager or from $(l:archon:world/spires)Spires$(), and increases the player's $(#2895CB)max mana to 200$()."
+      "text": "The Capacity scroll can be obtained as a trade from the $(l:archon:world/wizard)Wizard$() villager or from $(l:archon:world/spires)Spires$(), and increases the player's $(#2895CB)max mana to 200 (Configurable)$()."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "archon:accelerate_scroll",
+      "text": "The Accelerate scroll can be obtained as a trade from the $(l:archon:world/wizard)Wizard$() villager or from $(l:archon:world/spires)Spires$(), and makes the player's mana regenerate much faster (Configurable)$()."
     },
     {
       "type": "patchouli:spotlight",
       "item": "archon:removal_scroll",
-      "text": "The Scroll of Removal can be obtained from $(l:archon:world/spires)Spires$(). This will remove the currently applied scroll for the player."
+      "text": "The Scroll of Removal can be obtained as a trade from the $(l:archon:world/wizard)Wizard$() villager or from $(l:archon:world/spires)Spires$(). This will remove the currently applied scroll for the player."
     }
   ]
 }

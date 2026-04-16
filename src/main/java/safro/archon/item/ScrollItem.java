@@ -12,6 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import safro.archon.Archon;
 import safro.archon.api.ManaAttributes;
 import safro.archon.util.ArchonUtil;
 
@@ -43,9 +44,10 @@ public class ScrollItem extends Item {
 
     public static void addBonus(String name, PlayerEntity player) {
         if (name.equals("capacity")) {
-            ArchonUtil.get(player).addMaxModifier(ManaAttributes.CAPACITY_SCROLL_MODIFIER, "Capacity Scroll", 100, false);
+            ArchonUtil.get(player).addMaxModifier(ManaAttributes.CAPACITY_SCROLL_MODIFIER, "Capacity Scroll", Archon.CONFIG.capacityScrollAddAmount, false);
         } else if (name.equals("accelerate")) {
-//            ArchonUtil.get(player).setRegenSpeed(10);
+            float regenSpeed = ArchonUtil.get(player).getRegenSpeed();
+            ArchonUtil.get(player).setRegenSpeed(Math.max( Math.round(regenSpeed / Archon.CONFIG.accelerateScrollMultiplier), 1 ));
         }
     }
 

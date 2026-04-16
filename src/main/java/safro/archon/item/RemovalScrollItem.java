@@ -12,6 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import safro.archon.Archon;
 import safro.archon.api.ManaAttributes;
 import safro.archon.util.ArchonUtil;
 
@@ -43,7 +44,7 @@ public class RemovalScrollItem extends Item {
             ArchonUtil.get(player).removeMaxModifier(ManaAttributes.CAPACITY_SCROLL_MODIFIER);
             ArchonUtil.get(player).clampMana();
         } else if (name.equals("accelerate")) {
-//            ArchonUtil.get(player).setRegenSpeed(20);
+            ArchonUtil.get(player).setRegenSpeed(Archon.CONFIG.manaRegenTickAmount);
         }
     }
 

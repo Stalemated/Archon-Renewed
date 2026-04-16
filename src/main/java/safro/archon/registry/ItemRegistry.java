@@ -66,7 +66,7 @@ public class ItemRegistry extends BaseBlockItemRegistry {
 
     // Scrolls + Souls
     public static final Item CAPACITY_SCROLL = register("capacity_scroll", new ScrollItem("capacity", settings().maxCount(1).rarity(Rarity.UNCOMMON)));
-//    public static final Item ACCELERATE_SCROLL = register("accelerate_scroll", new ScrollItem("accelerate", settings().maxCount(1).rarity(Rarity.UNCOMMON)));
+    public static final Item ACCELERATE_SCROLL = register("accelerate_scroll", new ScrollItem("accelerate", settings().maxCount(1).rarity(Rarity.UNCOMMON)));
     public static final Item REMOVAL_SCROLL = register("removal_scroll", new RemovalScrollItem(settings().maxCount(1).rarity(Rarity.UNCOMMON)));
 
     public static final Item SOUL = register("soul", new Item(settings().fireproof()));
