@@ -17,6 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import safro.archon.Archon;
 import safro.archon.registry.EffectRegistry;
 import safro.archon.registry.MiscRegistry;
 import safro.archon.util.ArchonUtil;
@@ -30,12 +31,12 @@ public class TerraneanAxeItem extends SwordItem {
     }
 
     public int getManaCost() {
-        return 40;
+        return Archon.CONFIG.terraneanAxeManaCost;
     }
 
     public boolean activate(World world, PlayerEntity player, ItemStack stack, Hand hand) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 2, true, false));
-        player.addStatusEffect(new StatusEffectInstance(EffectRegistry.STURDY, 400, 0, true, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, Math.round(Archon.CONFIG.terraneanAxeEffectDuration.getOrDefault("resistance", 20.0f) * 20), Archon.CONFIG.terraneanAxeResistanceAmplifier, true, false));
+        player.addStatusEffect(new StatusEffectInstance(EffectRegistry.STURDY, Math.round(Archon.CONFIG.terraneanAxeEffectDuration.getOrDefault("sturdy", 20.0f) * 20), 0, true, false));
         player.swingHand(hand);
         return true;
     }

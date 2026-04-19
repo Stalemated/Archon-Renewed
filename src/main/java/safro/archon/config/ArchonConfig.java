@@ -141,8 +141,34 @@ public class ArchonConfig implements Config {
     @Syncing
     public float harvester_chance = 0.05F;
 
-    /*@Syncing
-    public terraAxe*/
+    @Comment("""
+              terraneanAxeManaCost:
+              Mana cost for the Terranean Axe's ability.
+              Accepts integers.
+              Default: 40
+              terraneanAxeResistanceAmplifier:
+              Resistance amplifier for the Terranean Axe's ability.
+              Accepts integers.
+              Default: 2
+              terraneanAxeEffectDuration:
+              Effect duration for the Terranean Axe's ability.
+              Accepts decimals.
+              Default:
+              {
+                "resistance": 20.0,
+                "sturdy": 20.0
+              }
+             """
+    )
+    @Syncing
+    public int terraneanAxeManaCost = 40;
+    @Syncing
+    public int terraneanAxeResistanceAmplifier = 2;
+    @Syncing
+    public Map<String, Float> terraneanAxeEffectDuration = new HashMap<>() {{
+        put("resistance", 20.0f);
+        put("sturdy", 20.0f);
+    }};
 
     @Comment("""
             
