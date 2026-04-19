@@ -30,6 +30,7 @@ public abstract class PlayerEntityMixin {
     @Inject(method = "createPlayerAttributes", require = 1, allow = 1, at = @At("RETURN"))
     private static void addAttributes(final CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.getReturnValue().add(ManaAttributes.MAX_MANA);
+        info.getReturnValue().add(ManaAttributes.MANA_REGEN_SPEED);
     }
 
     @Unique

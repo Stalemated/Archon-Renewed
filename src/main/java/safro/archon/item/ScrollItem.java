@@ -46,8 +46,10 @@ public class ScrollItem extends Item {
         if (name.equals("capacity")) {
             ArchonUtil.get(player).addMaxModifier(ManaAttributes.CAPACITY_SCROLL_MODIFIER, "Capacity Scroll", Archon.CONFIG.capacityScrollAddAmount, false);
         } else if (name.equals("accelerate")) {
-            float regenSpeed = ArchonUtil.get(player).getRegenSpeed();
-            ArchonUtil.get(player).setRegenSpeed(Math.max( Math.round(regenSpeed / Archon.CONFIG.accelerateScrollMultiplier), 1 ));
+            float currentRegen = ArchonUtil.get(player).getRegenSpeed();
+            float newRegen = Math.max( Math.round(currentRegen / Archon.CONFIG.accelerateScrollMultiplier), 1 );
+            
+            ArchonUtil.get(player).setRegenSpeedModifier(ManaAttributes.ACCELERATE_SCROLL_MODIFIER, "Accelerate Scroll", newRegen - currentRegen, false);
         }
     }
 

@@ -7,7 +7,6 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
-import safro.archon.Archon;
 import safro.archon.registry.ComponentsRegistry;
 import safro.archon.registry.EffectRegistry;
 
@@ -17,7 +16,6 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
     private final PlayerEntity player;
     private int mana = 0;
     private int manaTickTimer;
-    private int regenSpeed = Archon.CONFIG.manaRegenTickAmount;
 
     public ManaComponent(PlayerEntity player) {
         this.player = player;
@@ -28,7 +26,7 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
         this.clampMana();
         if (this.getMana() < this.getMaxMana()) {
             ++this.manaTickTimer;
-            if (this.manaTickTimer >= this.regenSpeed) {
+            if (this.manaTickTimer >= this.getRegenSpeed()) {
                 ++this.mana;
                 this.manaTickTimer = 0;
                 ComponentsRegistry.MANA_COMPONENT.sync(player);
@@ -40,8 +38,8 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
 
     @Override
     public void readFromNbt(NbtCompound nbt) {
-        this.mana = nbt.getInt("mana");
-        this.manaTickTimer = nbt.getInt("manaTickTimer");
+        if (nbt.contains("mana")) this.mana = nbt.getInt("mana");
+        if (nbt.contains("manaTickTimer")) this.manaTickTimer = nbt.getInt("manaTickTimer");
     }
 
     @Override
@@ -117,12 +115,25 @@ public class ManaComponent implements AutoSyncedComponent, ServerTickingComponen
         return (int)player.getAttributeValue(ManaAttributes.MAX_MANA);
     }
 
-    public void setRegenSpeed(int i) {
-        this.regenSpeed = i;
-        ComponentsRegistry.MANA_COMPONENT.sync(player);
+    public void setRegenSpeedModifier(UUID id, String name, double amt, boolean temp) {
+        EntityAttributeModifier modifier = new EntityAttributeModifier(id, name, amt, EntityAttributeModifier.Operation.ADDITION);
+        EntityAttributeInstance instance = player.getAttributeInstance(ManaAttributes.MANA_REGEN_SPEED);
+        if (instance != null) {
+            if (instance.hasModifier(modifier)) return;
+
+            if (temp) instance.addTemporaryModifier(modifier);
+            else instance.addPersistentModifier(modifier);
+        }
+    }
+
+    public void removeRegenModifier(UUID id) {
+        EntityAttributeInstance instance = player.getAttributeInstance(ManaAttributes.MANA_REGEN_SPEED);
+        if (instance != null && instance.getModifier(id) != null) {
+            instance.removeModifier(id);
+        }
     }
 
     public float getRegenSpeed() {
-        return this.regenSpeed;
+        return (float) player.getAttributeValue(ManaAttributes.MANA_REGEN_SPEED);
     }
 }
