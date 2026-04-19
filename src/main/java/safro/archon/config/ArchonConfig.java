@@ -9,13 +9,18 @@ import java.util.Map;
 @Syncing
 public class ArchonConfig implements Config {
 
+    // TODO: modmenu compat
+
+    // Client-side config
     @Comment(
             """
-            Sets the position of the mana display; Client-sided
-            The x-offset is subtracted from the x pos of the middle of the screen. (Ex: 0 would make it right in the middle)
-            The y-offset is subtracted from the y pos at the bottom of the screen. (Ex: 0 would make it at the very bottom of the screen)
-            X-Offset Default: 180
-            Y-Offset Default: 15
+             --- CLIENT-SIDE CONFIG ---
+            
+             Sets the position of the mana display
+             The x-offset is subtracted from the x pos of the middle of the screen. (Ex: 0 would make it right in the middle)
+             The y-offset is subtracted from the y pos at the bottom of the screen. (Ex: 0 would make it at the very bottom of the screen)
+             X-Offset Default: 180
+             Y-Offset Default: 15
             """
     )
     public int mana_xoffset = 180;
@@ -23,72 +28,69 @@ public class ArchonConfig implements Config {
 
     @Comment(
             """
-            Determines whether mana should only display if you have a mana item in your hand.
-            Client-Sided, Accepts "true" or "false"
-            Default: false (always shows mana)
+             Determines whether mana should only display if you have a mana item in your hand.
+             Accepts "true" or "false"
+             Default: false (always shows mana)
             """
     )
     public boolean displayManaWithItem = false;
 
     @Comment(
             """
-            Chance for a soul to drop when killing players and creatures using a soul scythe (bosses always drop a soul)
-            The number should follow these bounds: 0 <= x <= 1.0
-            Default: 0.05 (1/20)
-            """
-    )
-    @Syncing
-    public float soulDropChance = 0.05F;
-
-    @Comment(
-            """
-            Weight/Chance for the Wizard Village House to spawn in villages
-            Default: 10
-            """
-    )
-    @Syncing
-    public int wizard_village_weight = 10;
-
-    @Comment(
-            """
-            Determines whether a sound should be played when using a channeler
-            Client-Sided, Accepts "true" or "false"
-            Default: true
+             Determines whether a sound should be played when using a channeler
+             Accepts "true" or "false"
+             Default: true
             """
     )
     public boolean play_channel_sound = true;
 
     @Comment(
             """
-            The chance that Harvesters will drop the bonus related to the mob
-            The number should follow these bounds: 0 <= x <= 1.0
-            Default: 0.05 (1/20)
-            """
-    )
-    @Syncing
-    public float harvester_chance = 0.05F;
-
-    @Comment(
-            """
-            Whether screen shaking should be enabled or not. Used for players hit with the Rumble spell.
-            Client-Sided, Accepts "true" or "false"
-            Default: true
+             Whether screen shaking should be enabled or not. Used for players hit with the Rumble spell.
+             Accepts "true" or "false"
+             Default: true
             """
     )
     public boolean enableScreenShake = true;
 
-    @Comment("""
-             The max amount of experience the experience pouches can hold.
-             Accepts integers.
-             Default: 550 (Regular)
-             Default: 2920 (Super)
-            """)
+    /*@Comment(
+            """
+             Chance for a soul to drop when killing players and creatures using a soul scythe (bosses always drop a soul)
+             The number should follow these bounds: 0 <= x <= 1.0
+             Default: 0.05 (1/20)
+            """
+    )
     @Syncing
-    public int experiencePouchMax = 550;
+    public float soulDropChance = 0.05F;*/
+
+
+    // Server-side config
+    @Comment(
+            """
+            
+             --- SERVER-SIDE CONFIG ---
+            
+             --- World Generation ---
+            
+             Weight/Chance for the Wizard Village House to spawn in villages
+             Default: 10
+            """
+    )
     @Syncing
-    public int superExperiencePouchMax = 2920;
+    public int wizard_village_weight = 10;
 
     @Comment("""
+             Enable or disable cloud generation.
+             Accepts "true" or "false"
+             Default: true
+            """)
+    @Syncing
+    public boolean enableCloudGeneration = true;
+
+    @Comment("""
+            
+             --- Player Mana ---
+            
              The amount of game ticks needed to regen exactly 1 mana. (Less is faster regen)
              Accepts integers.
              Default: 4
@@ -98,7 +100,7 @@ public class ArchonConfig implements Config {
 
     @Comment("""
             
-             --- SCROLLS ---
+             --- Scrolls ---
             
              The amount of mana a Capacity Scroll adds to the player.
              Accepts integers.
@@ -115,16 +117,48 @@ public class ArchonConfig implements Config {
     @Syncing
     public float accelerateScrollMultiplier = 2;
 
-
     @Comment("""
-              Enable or disable cloud generation.
-              Accepts "true" or "false"
-              Default: true
+            
+             --- Items ---
+            
+             The max amount of experience the experience pouches can hold.
+             Accepts integers.
+             Default: 550 (Regular)
+             Default: 2920 (Super)
             """)
     @Syncing
-    public boolean enableCloudGeneration = true;
+    public int experiencePouchMax = 550;
+    @Syncing
+    public int superExperiencePouchMax = 2920;
+
+    @Comment(
+            """
+             The chance that Harvesters will drop the bonus related to the mob
+             The number should follow these bounds: 0 <= x <= 1.0
+             Default: 0.05 (1/20)
+            """
+    )
+    @Syncing
+    public float harvester_chance = 0.05F;
+
+    /*@Syncing
+    public terraAxe*/
+
+    @Comment("""
+            
+             --- Enchantments ---
+            
+             The mana reduction multiplier that each level of the Arcane enchantment adds.
+             Default: 0.1 (10%)
+            """)
+    @Syncing
+    public float arcaneEnchantmentLevelMultiplier = 0.1f;
+
     
     @Comment("""
+             
+              --- Spells ---
+             
               Enable or disable specific spells.
               Accepts "true" or "false"
               Example: "fireball": false to disable Fireball
@@ -224,7 +258,6 @@ public class ArchonConfig implements Config {
         put("rage", 0);
     }};
 
-
     @Comment("""
              The bonus multiplier for spell power to add to the effect's timer.
              Formula (result in seconds): effectDuration = effectDuration + spellPower * spellEffectDurationMultiplier
@@ -232,28 +265,6 @@ public class ArchonConfig implements Config {
             """)
     @Syncing
     public float spellEffectDurationMultiplier = 2.0f;
-
-    @Comment("""
-             The mana reduction multiplier that each level of the Arcane enchantment adds.
-             Default: 0.1 (10%)
-            """)
-    @Syncing
-    public float arcaneEnchantmentLevelMultiplier = 0.1f;
-
-    @Comment("""
-              Enable or disable specific soul summons.
-              Accepts "true" or "false"
-              Example: "hound_pack": false to disable Hound Pack
-              Default: true
-             """)
-    @Syncing
-    public Map<String, Boolean> enabledSummons = new HashMap<>() {{
-        put("hound_pack", true);
-        put("silver_swarm", true);
-        put("archer", true);
-        put("twin_knights", true);
-        put("titan", true);
-    }};
 
     @Comment("""
              enableAlternateMendScalingFormula:
@@ -284,6 +295,24 @@ public class ArchonConfig implements Config {
     public float mendSpellScaling = 0.03f;
     @Syncing
     public float minMendSpellPower = 5.0f;
+
+    @Comment("""
+             
+             --- Summons ---
+             
+              Enable or disable specific soul summons.
+              Accepts "true" or "false"
+              Example: "hound_pack": false to disable Hound Pack
+              Default: true
+             """)
+    @Syncing
+    public Map<String, Boolean> enabledSummons = new HashMap<>() {{
+        put("hound_pack", true);
+        put("silver_swarm", true);
+        put("archer", true);
+        put("twin_knights", true);
+        put("titan", true);
+    }};
 
     @Override
     public String getName() {
