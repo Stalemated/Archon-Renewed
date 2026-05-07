@@ -31,7 +31,7 @@ public class WorldRegistry {
         if (Archon.CONFIG.enableCloudGeneration) {
             add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cirrus");
             add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cumulonimbus");
-            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cumulus");
+            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "altocumulus");
         } else {
             add(BiomeSelectors.tag(BiomeTags.IS_MOUNTAIN), GenerationStep.Feature.UNDERGROUND_ORES, "sky_node_cloud_disabled");
         }

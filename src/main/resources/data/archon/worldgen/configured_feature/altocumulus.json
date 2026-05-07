@@ -1,0 +1,10 @@
+{
+  "type": "archon:sky_node",
+  "config": {
+    "structures": [
+      "archon:cloud/altocumulus1",
+      "archon:cloud/altocumulus2",
+      "archon:cloud/altocumulus3smiley"
+    ]
+  }
+}

@@ -2,7 +2,7 @@
   "type": "archon:sky_node",
   "config": {
     "structures": [
-      "archon:cloud/cloud1"
+      "archon:cloud/cumulonimbus"
     ]
   }
 }
