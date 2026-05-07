@@ -1,53 +1,74 @@
 package safro.archon.world.feature;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.structure.StructurePlacementData;
+import net.minecraft.structure.StructureTemplate;
+import net.minecraft.structure.StructureTemplateManager;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 import safro.archon.Archon;
-import safro.archon.registry.BlockRegistry;
 
-public class CloudFeature extends Feature<DefaultFeatureConfig> {
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
-    public CloudFeature(Codec<DefaultFeatureConfig> codec) {
+public class CloudFeature extends Feature<CloudFeatureConfig> {
+
+    public CloudFeature(Codec<CloudFeatureConfig> codec) {
         super(codec);
     }
 
-    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
-
+    @Override
+    public boolean generate(FeatureContext<CloudFeatureConfig> context) {
         if (!Archon.CONFIG.enableCloudGeneration) return false;
 
         StructureWorldAccess world = context.getWorld();
         Random random = context.getRandom();
         BlockPos pos = context.getOrigin();
+        List<Identifier> structures = context.getConfig().structures();
 
-        float f = (float)(random.nextInt(3) + 4);
-        for(int i = 0; f > 0.5F; --i) {
-            for(int j = MathHelper.floor(-f); j <= MathHelper.ceil(f); ++j) {
-                for(int k = MathHelper.floor(-f); k <= MathHelper.ceil(f); ++k) {
-                    if ((float)(j * j + k * k) <= (f + 1.0F) * (f + 1.0F)) {
-                        this.setBlockState(world, pos.add(j, i, k), BlockRegistry.SOLID_CLOUD.getDefaultState());
-
-                        if (world.getBlockState(pos.add(j, i, k)).isOf(BlockRegistry.SOLID_CLOUD) && random.nextInt(50) <= 10) {
-                            BlockState state;
-                            if (random.nextBoolean()) {
-                                state = BlockRegistry.CLOUD_IRON.getDefaultState();
-                            } else {
-                                state = BlockRegistry.SKY_NODE.getDefaultState();
-                            }
-                            this.setBlockState(world, pos.add(j, i, k), state);
-                        }
-                    }
-                }
-            }
-
-            f = (float)((double)f - ((double)random.nextInt(2) + 0.5D));
+        if (structures.isEmpty()) {
+            return false;
         }
+
+        Identifier randomCloudId = structures.get(random.nextInt(structures.size()));
+        StructureTemplateManager templateManager = Objects.requireNonNull(world.getServer()).getStructureTemplateManager();
+
+        Optional<StructureTemplate> template = templateManager.getTemplate(randomCloudId);
+        if (template.isEmpty()) {
+            Archon.LOGGER.warn("Cloud structure template {} not found!", randomCloudId);
+            return false;
+        }
+
+        BlockRotation rotation = BlockRotation.random(random);
+
+        ChunkPos chunkPos = new ChunkPos(pos);
+        BlockBox safeBounds = new BlockBox(
+                chunkPos.getStartX() - 16, world.getBottomY(), chunkPos.getStartZ() - 16,
+                chunkPos.getEndX() + 16, world.getTopY(), chunkPos.getEndZ() + 16
+        );
+
+        StructurePlacementData placementData = new StructurePlacementData()
+                .setRotation(rotation)
+                .setMirror(BlockMirror.NONE)
+                .setBoundingBox(safeBounds)
+                .setRandom(random);
+
+        Vec3i size = template.get().getRotatedSize(rotation);
+        BlockPos placePos = pos.add(-size.getX() / 2, 0, -size.getZ() / 2);
+
+        template.get().place(world, placePos, placePos, placementData, random, Block.NOTIFY_LISTENERS);
+
         return true;
     }
 }

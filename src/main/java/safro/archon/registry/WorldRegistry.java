@@ -10,15 +10,15 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import safro.archon.Archon;
 import safro.archon.world.feature.CloudFeature;
+import safro.archon.world.feature.CloudFeatureConfig;
 
 import java.util.function.Predicate;
 
 public class WorldRegistry {
-    public static final Feature<DefaultFeatureConfig> SKY_NODE = new CloudFeature(DefaultFeatureConfig.CODEC);
+    public static final Feature<CloudFeatureConfig> SKY_NODE = new CloudFeature(CloudFeatureConfig.CODEC);
 
     public static void init() {
         Registry.register(Registries.FEATURE, new Identifier(Archon.MODID, "sky_node"), SKY_NODE);
@@ -29,7 +29,9 @@ public class WorldRegistry {
         add(BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES, "end_node");
 
         if (Archon.CONFIG.enableCloudGeneration) {
-            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "sky_node");
+            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cirrus");
+            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cumulonimbus");
+            add(BiomeSelectors.tag(TagRegistry.HAS_SKY_NODE), GenerationStep.Feature.TOP_LAYER_MODIFICATION, "cumulus");
         } else {
             add(BiomeSelectors.tag(BiomeTags.IS_MOUNTAIN), GenerationStep.Feature.UNDERGROUND_ORES, "sky_node_cloud_disabled");
         }

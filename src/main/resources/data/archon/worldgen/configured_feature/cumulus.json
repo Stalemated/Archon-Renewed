@@ -1,0 +1,10 @@
+{
+  "type": "archon:sky_node",
+  "config": {
+    "structures": [
+      "archon:cloud/cloud2",
+      "archon:cloud/cloud4smiley",
+      "archon:cloud/cloud5"
+    ]
+  }
+}

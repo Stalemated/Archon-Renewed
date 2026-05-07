@@ -1,0 +1,8 @@
+{
+  "type": "archon:sky_node",
+  "config": {
+    "structures": [
+      "archon:cloud/cloud3"
+    ]
+  }
+}

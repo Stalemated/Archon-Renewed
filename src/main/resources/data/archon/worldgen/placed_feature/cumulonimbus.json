@@ -1,0 +1,27 @@
+{
+  "feature": "archon:cumulonimbus",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 2000
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 240
+        },
+        "min_inclusive": {
+          "absolute": 175
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
