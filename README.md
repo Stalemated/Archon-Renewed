@@ -6,6 +6,7 @@ This project is a fork of the original [Archon](https://github.com/Safrodev/Arch
 # Links
 * [Modrinth](https://modrinth.com/mod/archon-renewed)
 * [Curseforge](https://www.curseforge.com/minecraft/mc-mods/archon-renewed)
+* [Discord](https://discord.gg/prominence)
 
 ### Original Archon links
 * [GitHub](https://github.com/Safrodev/Archon)

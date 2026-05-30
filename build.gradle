@@ -40,7 +40,8 @@ dependencies {
 	modImplementation include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}")
 
 	// Omega Config
-	modImplementation include("dev.draylar.omega-config:omega-config-base:${project.config_version}")
+	//modImplementation include("dev.draylar.omega-config:omega-config-base:${project.config_version}") // Host is down
+	modImplementation include("com.github.Draylar:omega-config:${project.config_version}")
 
 	// Patchouli (Runtime only)
 	modCompileOnly modRuntimeOnly("vazkii.patchouli:Patchouli:${project.patchouli_version}"),{
