@@ -53,15 +53,17 @@ public class ArchonConfig implements Config {
     )
     public boolean enableScreenShake = true;
 
-    /*@Comment(
+    @Comment(
             """
-             Chance for a soul to drop when killing players and creatures using a soul scythe (bosses always drop a soul)
-             The number should follow these bounds: 0 <= x <= 1.0
-             Default: 0.05 (1/20)
+             An integer value that is factored into the Soul Power scaling function to calculate soul power from number of souls in a Staff of Undead
+            The greater the value (ex. 50), the HARDER it will be to increase your Soul Power (more souls needed for each level)
+            The smaller the value (ex. 5), the EASIER it will be to increase your Soul Power (less souls needed for each level)
+            The number should follow these bounds: 1 <= x <= 100
+            Default: 10
             """
     )
     @Syncing
-    public float soulDropChance = 0.05F;*/
+    public int soulPowerScaling = 10;
 
 
     // Server-side config
@@ -180,7 +182,7 @@ public class ArchonConfig implements Config {
     @Syncing
     public float arcaneEnchantmentLevelMultiplier = 0.1f;
 
-    
+
     @Comment("""
              
               --- Spells ---
@@ -338,6 +340,7 @@ public class ArchonConfig implements Config {
         put("archer", true);
         put("twin_knights", true);
         put("titan", true);
+        put("deathstrider", true);
     }};
 
     @Override

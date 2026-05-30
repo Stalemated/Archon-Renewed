@@ -22,6 +22,7 @@ public class SummonRegistry {
     public static final Summon ARCHER = SummonHandler.register("archer", new ArcherSummon());
     public static final Summon TWIN_KNIGHTS = SummonHandler.register("twin_knights", new TwinKnightsSummon());
     public static final Summon TITAN = SummonHandler.register("titan", new TitanSummon());
+    public static final Summon DEATHSTRIDER = SummonHandler.register("deathstrider", new DeathstriderSummon());
 
     public static void init() {
         if (Archon.CONFIG.enabledSummons.getOrDefault("hound_pack", true)) createTome("hound_pack", HOUND_PACK);
@@ -29,6 +30,7 @@ public class SummonRegistry {
         if (Archon.CONFIG.enabledSummons.getOrDefault("archer", true)) createTome("archer", ARCHER);
         if (Archon.CONFIG.enabledSummons.getOrDefault("twin_knights", true)) createTome("twin_knights", TWIN_KNIGHTS);
         if (Archon.CONFIG.enabledSummons.getOrDefault("titan", true)) createTome("titan", TITAN);
+        if (Archon.CONFIG.enabledSummons.getOrDefault("deathstrider", true)) createTome("deathstrider", DEATHSTRIDER);
     }
 
     public static SoulTomeItem createTome(String name, Summon summon) {
